@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>WebMidi.js Quick Start</title>
+  <script src='webmidi.iife.js' >
+  //"https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js">
+  </script>
+  <script >
+   //navigator.requestMIDIAccess().then((access) => {
+   // console.log(access.outputs);
+   //});  
+   WebMidi   // Enable WebMidi.js and trigger the onEnabled() function when ready.
+     .enable()
+     .then(onEnabled)
+     .catch(err => alert(err));
+   var mySynth;
+     
+   function onEnabled() {
+     if (WebMidi.inputs.length < 1) {
+       document.body.innerHTML+= "No device detected.";
+     } else {
+       document.body.innerHTML+='<select id=\'device\'>';
+       WebMidi.inputs.forEach((device, index) => {
+         document.getElementById('device').innerHTML+= `<option value=${index}>\'${index}: ${device.name} </option>`;
+       });
+       document.body.innerHTML+='</select>';
+     }
+   }
+   
+   function MIDIConnect(){
+     dev=document.getElementById('device').value;
+     console.log('connecting to midi device #'+dev);
+     mySynth = WebMidi.inputs[dev];  //dispositivo: 0-N
+     // const mySynth = WebMidi.getInputByName("TYPE NAME HERE!")
+     mySynth.channels[2].addListener("noteon", e => {  //[canal midi: 1-16]
+       //let sus = `${e.note.accidental}`;
+       //console.log(sus);
+       //if(sus=='undefined'){sus='';}
+       let sus='';
+       document.body.innerHTML+= `${e.note.identifier}${sus} <br>`;
+       console.log(e.note.number);
+     });   
+   }
+  </script>
+ </head>
+ <body>
+  <h1>WebMidi Exemplo Básico</h1>
+  <p>Clique nos botão abaixo para ver as propriedades:</p>
+  <p><button onclick="myFunction()">Click Me</button></p>
+  <div id="myDIV">Hello</div>
+  <script>
+  function myFunction() {
+    var x = document.getElementById("myDIV");
+    if (x.innerHTML === "_") {
+      x.innerHTML = "identifier: A#3<br>accidental:#<br>name: A<br>octave:3<br>number:58";
+    } else {      x.innerHTML = "_";    }
+  }
+  </script>
+  <p><button onclick="MIDIConnect()">Connect MIDI Device</button></p>
+ </body>
+</html> <!--original:47 linhas icon by FreePik, from flaticon.com-->
