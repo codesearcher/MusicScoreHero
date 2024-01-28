@@ -2,7 +2,7 @@
 -Almost functional (just some bugs with multiple tracks midi file)<br>
 
 #How to run<br>
-On Chrome:<br>
+<font color=blue>On Chrome:</font><br>
 1-Find Chrome installation path (generally C:\Program Files\Google\Chrome\Application)<br>
 2-Press ctrl+[windows logo], insert 'cmd.exe' and press enter<br>
 3-On this new screen: 'chrome.exe --disable-web-security --user-data-dir'<br>
